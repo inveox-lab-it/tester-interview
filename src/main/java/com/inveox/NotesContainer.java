@@ -4,16 +4,16 @@ import com.inveox.internal.Pack;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
 public class NotesContainer {
-    private List<Pack> notes = new ArrayList<>();
-    private int size;
-    private Clock clock;
+    private final List<Pack> notes = new ArrayList<>();
+    private final int size;
+    private final Clock clock;
 
     NotesContainer(int size, Clock clock) {
         this.size = size;
@@ -31,7 +31,7 @@ public class NotesContainer {
         }
         notes.add(new Pack()
                 .withNote(note)
-                .withCreated(clock.millis()));
+                .withCreated(clock.instant().toEpochMilli()));
     }
 
     public void reset() {
@@ -47,7 +47,7 @@ public class NotesContainer {
     }
 
     public List<Note> findYoungerThan(LocalDateTime localDateTime) {
-        long boundary = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        long boundary = localDateTime.atZone(ZoneOffset.UTC).toInstant().toEpochMilli();
         return notes.stream()
                 .filter(p -> p.getCreated() > boundary)
                 .map(Pack::getNote)
@@ -55,7 +55,7 @@ public class NotesContainer {
     }
 
     public List<Note> findOlderThan(LocalDateTime localDateTime) {
-        long boundary = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        long boundary = localDateTime.atZone(ZoneOffset.UTC).toInstant().toEpochMilli();
         return notes.stream()
                 .filter(p -> p.getCreated() > boundary)
                 .map(Pack::getNote)

@@ -31,4 +31,11 @@ public class Note {
     public int hashCode() {
         return Objects.hash(text);
     }
+
+    @Override
+    public String toString() {
+        return "Note{" +
+                "text='" + text + '\'' +
+                '}';
+    }
 }
