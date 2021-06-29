@@ -74,7 +74,7 @@ public class NotesContainer {
                 .collect(toList());
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return notes.isEmpty();
     }
 
@@ -85,5 +85,16 @@ public class NotesContainer {
 
     public int size() {
         return notes.size();
+    }
+
+    public Note getFirstElement() {
+        return notes.get(0).getNote();
+    }
+
+    public Note getLastElement() {
+        if (notes.size() == 0) {
+            throw new RuntimeException("container is empty");
+        }
+        return notes.get(notes.size()).getNote();
     }
 }
